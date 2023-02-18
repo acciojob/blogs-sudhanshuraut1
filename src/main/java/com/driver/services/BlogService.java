@@ -6,6 +6,7 @@ import com.driver.models.User;
 import com.driver.repositories.BlogRepository;
 import com.driver.repositories.ImageRepository;
 import com.driver.repositories.UserRepository;
+import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,24 +24,21 @@ public class BlogService {
 
     public Blog createAndReturnBlog(Integer userId, String title, String content) {
         //create a blog at the current time
-        Blog blog = new Blog();
-        blog.setContent(content);
-        blog.setTitle(title);
-        blog.setPubDate(new Date());
-
+//
+//        if(!userRepository1.findById(userId).isPresent()){
+//            throw new Exception();
+//        }
         User user = userRepository1.findById(userId).get();
-        blog.setUser(user);
-        List<Blog> blogList = user.getBlogList();
-        blogList.add(blog);
-        userRepository1.save(user);
-       // blogRepository1.save(blog);
+        Blog blog = new Blog(user,title,content);
+        blog.setPubDate(new Date());
+        userRepository1.save(user); //Blog saved in repo by cascading
+        user.getBlogList().add(blog);
         return blog;
 
     }
 
     public void deleteBlog(int blogId){
         //delete blog and corresponding images
-      blogRepository1.deleteById(blogId);
-
+        blogRepository1.deleteById(blogId);
     }
 }

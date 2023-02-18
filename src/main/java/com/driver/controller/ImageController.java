@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/images")
 public class ImageController {
+
     @Autowired
     ImageService imageService;
 
@@ -32,6 +33,7 @@ public class ImageController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
+
 
 
 

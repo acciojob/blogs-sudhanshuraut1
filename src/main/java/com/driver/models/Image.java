@@ -1,21 +1,34 @@
 package com.driver.models;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
-@Table(name =  "Image")
-public class Image {
-
+@Table(name = "Image")
+public class Image{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    private String description;
+    private String dimensions;
 
-   private String description;
-
-   private String dimentions;
+    @ManyToOne
+    @JoinColumn
+    private Blog blog;
 
     public Image() {
+    }
+
+    public Image(Blog blog, String description, String dimensions) {
+        this.description = description;
+        this.dimensions = dimensions;
+        this.blog = blog;
+    }
+
+    public Image(int id, String description, String dimensions, Blog blog) {
+        this.id = id;
+        this.description = description;
+        this.dimensions = dimensions;
+        this.blog = blog;
     }
 
     public int getId() {
@@ -34,17 +47,13 @@ public class Image {
         this.description = description;
     }
 
-    public String getDimentions() {
-        return dimentions;
+    public String getDimensions() {
+        return dimensions;
     }
 
-    public void setDimentions(String dimentions) {
-        this.dimentions = dimentions;
+    public void setDimensions(String dimensions) {
+        this.dimensions = dimensions;
     }
-
-    @ManyToOne
-    @JoinColumn
-    private Blog blog;
 
     public Blog getBlog() {
         return blog;
